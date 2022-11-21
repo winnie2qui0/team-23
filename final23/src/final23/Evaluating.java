@@ -68,7 +68,6 @@ public class Evaluating {
 		    retVal++;
 		    fromIdx = found + keyword.length();
 		}
-	
 		return retVal;
     }
     
