@@ -8,6 +8,10 @@ public class Ranking {
 		this.result = new PriorityQueue<WebNode>(100, new NodeComparator());
 	}
 	
+	public void add(WebNode treeRoot) {
+		this.result.offer(treeRoot);
+	}
+	
 	public void output(){
 		//3. print the output in order and remove all element
 		StringBuilder sb = new StringBuilder();
