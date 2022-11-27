@@ -1,4 +1,4 @@
-package final23;
+
 import java.util.PriorityQueue;
 
 public class Ranking {

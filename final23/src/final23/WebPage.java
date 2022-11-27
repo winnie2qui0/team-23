@@ -1,4 +1,4 @@
-package final23;
+
 import java.io.IOException;
 
 public class WebPage {

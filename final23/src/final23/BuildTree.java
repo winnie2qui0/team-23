@@ -1,5 +1,3 @@
-package final23;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,6 +5,11 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class BuildTree {
 	
@@ -40,7 +43,7 @@ public class BuildTree {
 		return retVal;
 	}
 	
-	private ArrayList<String> getSubUrl(String url){
+	private ArrayList<String> getSubUrl(String url) throws IOException{
 
 		content = fetchContent(url);
 		
@@ -70,7 +73,7 @@ public class BuildTree {
 		return retVal;
 	}
 	
-	public WebTree buildIt(){
+	public WebTree buildIt() throws IOException{
 		WebPage rootPage = new WebPage(this.url, this.title);		
 		WebTree tree = new WebTree(rootPage);
 		
@@ -78,9 +81,9 @@ public class BuildTree {
 		
 		for(String firstSubUrl : firstFloor){
 			ArrayList<String> secondFloor = this.getSubUrl(firstSubUrl);
-			WebNode f = new WebNode(new WebPage(firstSubUrl));
+			WebNode f = new WebNode(new WebPage(firstSubUrl, "NoName"));
 			for(String secondSubUrl : secondFloor) {
-				f.addChild(new WebNode(new WebPage(secondSubUrl)));
+				f.addChild(new WebNode(new WebPage(secondSubUrl, "NoName")));
 			}
 			tree.root.addChild(f);
 		}
