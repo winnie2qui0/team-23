@@ -12,12 +12,15 @@ public class Main {
 			//System.out.println(urls.get(title));
 			//BuildTree urlTree = new BuildTree(urls.get(title), title);
 			//WebTree tree = urlTree.buildIt();
+			//tree.setPostOrderScore();
 			//rank.add(tree.root);
 		}
+		//以下為test
 		BuildTree urlTree = new BuildTree("https://www.ptt.cc/bbs/joke/M.1669395372.A.65F.html", "pttJoke1");
 		WebTree tree = urlTree.buildIt();
 		tree.setPostOrderScore();
 		rank.add(tree.root);
+		System.out.println(tree.root.children);
 		urlTree = new BuildTree("https://www.ptt.cc/bbs/joke/M.1669037987.A.8BD.html", "pttJoke2");
 		tree = urlTree.buildIt();
 		tree.setPostOrderScore();
