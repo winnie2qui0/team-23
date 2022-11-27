@@ -5,11 +5,19 @@
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="add packages/**"/>
+		</accessrules>
 	</classpathentry>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="lib/jsoup-1.15.3.jar">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+=======
+	<classpathentry kind="lib" path="/Users/kyle/Desktop/NCCU/111-1/四D56資料結構/jsoup-1.15.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jasonyang/Downloads/jsoup-1.15.3.jar"/>
+>>>>>>> branch 'master' of https://github.com/winnie2qui0/team-23.git
 	<classpathentry kind="output" path="bin"/>
 </classpath>
