@@ -14,12 +14,16 @@ public class Ranking {
 	
 	public void output(){
 		//3. print the output in order and remove all element
-		StringBuilder sb = new StringBuilder();
 		while(!(result.isEmpty())) {
-			sb.append(result.remove().toString());
+			StringBuilder sb = new StringBuilder();
+			WebNode out = result.remove();
+			sb.append(out.webPage.name);
+			sb.append(":");
+			sb.append(out.nodeScore);
+			System.out.println(sb.toString());
 		}
 		
-		System.out.println(sb.toString());	
+			
 	}
 
 }
