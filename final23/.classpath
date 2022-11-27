@@ -5,8 +5,11 @@
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="add packages/**"/>
+		</accessrules>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/kyle/Desktop/NCCU/111-1/四D56資料結構/jsoup-1.15.3.jar"/>
-	<classpathentry kind="lib" path="/Users/jasonyang/Downloads/jsoup-1.15.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/Users/jasonyang/Downloads/jsoup-1.15.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
