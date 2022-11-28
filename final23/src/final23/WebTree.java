@@ -1,6 +1,5 @@
-package final23;
+
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class WebTree {
 	public WebNode root;
@@ -9,16 +8,16 @@ public class WebTree {
 		this.root = new WebNode(rootPage);
 	}
 	
-	public void setPostOrderScore(ArrayList<Keyword> keywords) throws IOException{
-		setPostOrderScore(root, keywords);
+	public void setPostOrderScore() throws IOException{
+		setPostOrderScore(root);
 	}
 	
-	private void setPostOrderScore(WebNode startNode, ArrayList<Keyword> keywords) throws IOException{
+	private void setPostOrderScore(WebNode startNode) throws IOException{
 		//2. compute the score of children nodes via post-order, then setNodeScore for startNode
 		for(WebNode child : startNode.children) {
-			this.setPostOrderScore(child, keywords);
+			this.setPostOrderScore(child);
 		}
-		startNode.setNodeScore(keywords);
+		startNode.setNodeScore();
 	}
 	
 	public void eularPrintTree(){

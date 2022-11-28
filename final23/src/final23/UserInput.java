@@ -1,4 +1,4 @@
-package final23;
+
 
 public class UserInput {
 	String input;
