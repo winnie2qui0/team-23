@@ -26,16 +26,22 @@ public class BuildTree {
 	{
 		String retVal = "";
     	try {
-			URL url = new URL(urlStr);
-			URLConnection conn = url.openConnection();
-			InputStream in = conn.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		
-			String line = null;
+	
+    		URL u = new URL(url);
+    		URLConnection conn = u.openConnection();
+    		//set HTTP header
+    		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107 Chrome/40.0.2214.38 Safari/537.36");
+//    		conn.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0").ignoreHttpErrors(true).followRedirects(true).timeout(100000).ignoreContentType(true).get();
+    		InputStream in = conn.getInputStream();
+
+    		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
+    		BufferedReader bufReader = new BufferedReader(inReader);
+    		String line = null;
+
+    		while((line = bufReader.readLine()) != null){
+    			retVal += line;
+    		}
 			
-			while ((line = br.readLine()) != null){
-			    retVal = retVal + line + "\n";
-			}
     	}catch(IOException e){
     		
     	}

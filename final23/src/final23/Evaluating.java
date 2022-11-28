@@ -34,19 +34,27 @@ public class Evaluating {
 	}
     
     private String fetchContent() throws IOException{
-		URL url = new URL(this.urlStr);
-		URLConnection conn = url.openConnection();
-		InputStream in = conn.getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+    	String retVal = "";
+    	try {
 	
-		String retVal = "";
-	
-		String line = null;
-		
-		while ((line = br.readLine()) != null){
-		    retVal = retVal + line + "\n";
-		}
-	
+    		URL u = new URL(urlStr);
+    		URLConnection conn = u.openConnection();
+    		//set HTTP header
+    		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107 Chrome/40.0.2214.38 Safari/537.36");
+//    		conn.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0").ignoreHttpErrors(true).followRedirects(true).timeout(100000).ignoreContentType(true).get();
+    		InputStream in = conn.getInputStream();
+
+    		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
+    		BufferedReader bufReader = new BufferedReader(inReader);
+    		String line = null;
+
+    		while((line = bufReader.readLine()) != null){
+    			retVal += line;
+    		}
+			
+    	}catch(IOException e){
+    		
+    	}
 		return retVal;
     }
     
