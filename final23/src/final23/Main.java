@@ -6,8 +6,10 @@ import java.net.URLDecoder;
 public class Main {
 	
 	public static void main(String args[]) throws IOException {
-		Search go = new Search("Justin");
-		System.out.println("hello");
+
+		long startTime=System.nanoTime();
+		Search go = new Search("政大");
+
 		HashMap<String, String> urls = go.query();
 		System.out.println(urls);
 		Ranking rank = new Ranking();
@@ -45,6 +47,10 @@ public class Main {
 //		tree = urlTree.buildIt();
 //		tree.setPostOrderScore();
 //		rank.add(tree.root);
-//		rank.output();
+
+		rank.output();
+		long endTime=System.nanoTime();
+		System.out.println("執行時間： "+(endTime-startTime)+" NS ");
+
 	}
 }
