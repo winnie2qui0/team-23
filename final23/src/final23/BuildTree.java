@@ -61,6 +61,7 @@ public class BuildTree {
 			try 
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
+
 				if(citeUrl.substring(0, 4).equals("http")) {
 					retVal.add(citeUrl);
 				}
@@ -72,6 +73,7 @@ public class BuildTree {
 			
 			if(retVal.size()>=3) {
 				break;
+
 			}
 		}
 		

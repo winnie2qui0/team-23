@@ -34,21 +34,19 @@ public class Evaluating {
 	}
     
     private String fetchContent() throws IOException{
-    	String retVal = "";
-    	try {
-			URL url = new URL(this.urlStr);
-			URLConnection conn = url.openConnection();
-			InputStream in = conn.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		URL url = new URL(this.urlStr);
+		URLConnection conn = url.openConnection();
+		InputStream in = conn.getInputStream();
+		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+	
+		String retVal = "";
+	
+		String line = null;
 		
-			String line = null;
-			
-			while ((line = br.readLine()) != null){
-			    retVal = retVal + line + "\n";
-			}
-    	}catch(IOException e){
-    		
-    	}
+		while ((line = br.readLine()) != null){
+		    retVal = retVal + line + "\n";
+		}
+	
 		return retVal;
     }
     

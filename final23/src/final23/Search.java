@@ -2,10 +2,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import org.jsoup.Jsoup;
@@ -22,7 +20,9 @@ public class Search {
 	public Search(String searchKeyword)
 	{
 		this.searchKeyword = searchKeyword;
-		this.url = "http://www.google.com/search?q="+searchKeyword+"+笑話"+"&oe=utf8&num=20";
+		this.url = "http://www.google.com/search?q="+searchKeyword+"&oe=utf8&num=20";
+//		this.url = "https://tw.search.yahoo.com/search?p="+searchKeyword+"&fr=yfp-search-sb";
+
 	}
 	
 	private String fetchContent() throws IOException
@@ -32,7 +32,8 @@ public class Search {
 		URL u = new URL(url);
 		URLConnection conn = u.openConnection();
 		//set HTTP header
-		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107");
+		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107 Chrome/40.0.2214.38 Safari/537.36");
+//		conn.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0").ignoreHttpErrors(true).followRedirects(true).timeout(100000).ignoreContentType(true).get();
 		InputStream in = conn.getInputStream();
 
 		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
@@ -67,22 +68,21 @@ public class Search {
 		
 		//select particular element(tag) which you want 
 		Elements lis = doc.select("div");
+//		Elements lis = doc.select("a[href]");
 		lis = lis.select(".kCrYT");
+		System.out.println(lis);
 		
 		for(Element li : lis)
 		{
 			try 
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
-				String result = "";
-				try {
-				    result = java.net.URLDecoder.decode(citeUrl, StandardCharsets.UTF_8.name());
-				} catch (UnsupportedEncodingException e) {
-				    // not going to happen - value came from JDK's own StandardCharsets
-				}
-				int last = result.indexOf("&sa");
-				result =  result.substring(7, last);
+				int useLessUrl = citeUrl.indexOf("&sa=");
+				System.out.println(useLessUrl);
+				citeUrl = citeUrl.substring(7, useLessUrl);
+				System.out.println(citeUrl);
 				String title = li.select("a").get(0).select(".vvjwJb").text();
+//				System.out.println(title);
 				
 				if(title.equals("")) 
 				{
@@ -90,7 +90,7 @@ public class Search {
 				}
 				
 				//put title and pair into HashMap
-				retVal.put(title, result);
+				retVal.put(title, citeUrl);
 
 			} catch (IndexOutOfBoundsException e) 
 			{
