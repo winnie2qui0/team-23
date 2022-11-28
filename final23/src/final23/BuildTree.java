@@ -61,12 +61,15 @@ public class BuildTree {
 			try 
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
+				System.out.println("buildtree");
+				System.out.println(citeUrl);
 
 				retVal.add(citeUrl);
 
 			} catch (IndexOutOfBoundsException e) 
 			{
 					e.printStackTrace();
+					System.out.println("buildTree error");
 			}
 		}
 		
