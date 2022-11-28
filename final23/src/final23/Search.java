@@ -2,8 +2,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 
 import org.jsoup.Jsoup;
@@ -20,9 +22,13 @@ public class Search {
 	public Search(String searchKeyword)
 	{
 		this.searchKeyword = searchKeyword;
+<<<<<<< HEAD
 		this.url = "http://www.google.com/search?q="+searchKeyword+"&oe=utf8&num=20";
 //		this.url = "https://tw.search.yahoo.com/search?p="+searchKeyword+"&fr=yfp-search-sb";
 
+=======
+		this.url = "http://www.google.com/search?q="+searchKeyword+"+笑話"+"&oe=utf8&num=20";
+>>>>>>> branch 'master' of https://github.com/winnie2qui0/team-23
 	}
 	
 	private String fetchContent() throws IOException
@@ -77,10 +83,21 @@ public class Search {
 			try 
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
+<<<<<<< HEAD
 				int useLessUrl = citeUrl.indexOf("&sa=");
 				System.out.println(useLessUrl);
 				citeUrl = citeUrl.substring(7, useLessUrl);
 				System.out.println(citeUrl);
+=======
+				String result = "";
+				try {
+				    result = java.net.URLDecoder.decode(citeUrl, StandardCharsets.UTF_8.name());
+				} catch (UnsupportedEncodingException e) {
+				    // not going to happen - value came from JDK's own StandardCharsets
+				}
+				int last = result.indexOf("&sa");
+				result =  result.substring(7, last);
+>>>>>>> branch 'master' of https://github.com/winnie2qui0/team-23
 				String title = li.select("a").get(0).select(".vvjwJb").text();
 //				System.out.println(title);
 				
@@ -90,7 +107,7 @@ public class Search {
 				}
 				
 				//put title and pair into HashMap
-				retVal.put(title, citeUrl);
+				retVal.put(title, result);
 
 			} catch (IndexOutOfBoundsException e) 
 			{
