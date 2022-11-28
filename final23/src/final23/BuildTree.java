@@ -22,24 +22,23 @@ public class BuildTree {
 		this.title = title;
 	}
 	
-	private String fetchContent(String url) throws IOException
+	private String fetchContent(String urlStr) throws IOException
 	{
 		String retVal = "";
-
-		URL u = new URL(url);
-		URLConnection conn = u.openConnection();
-		//set HTTP header
-		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107");
-		InputStream in = conn.getInputStream();
-
-		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
-		BufferedReader bufReader = new BufferedReader(inReader);
-		String line = null;
-
-		while((line = bufReader.readLine()) != null)
-		{
-			retVal += line;
-		}
+    	try {
+			URL url = new URL(urlStr);
+			URLConnection conn = url.openConnection();
+			InputStream in = conn.getInputStream();
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		
+			String line = null;
+			
+			while ((line = br.readLine()) != null){
+			    retVal = retVal + line + "\n";
+			}
+    	}catch(IOException e){
+    		
+    	}
 		return retVal;
 	}
 	
@@ -47,26 +46,32 @@ public class BuildTree {
 
 		content = fetchContent(url);
 		
-		
 		ArrayList<String> retVal = new ArrayList<String>();
 		
 		Document doc = Jsoup.parse(content);
-		
+
 		//select particular element(tag) which you want 
 		Elements lis = doc.select("div");
-		lis = lis.select(".kCrYT");
+//		lis = lis.select(".kCrYT");
+		
+	
 		
 		for(Element li : lis)
 		{
 			try 
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
-
-				retVal.add(citeUrl);
-
+				if(citeUrl.substring(0, 4).equals("http")) {
+					retVal.add(citeUrl);
+				}
+				
 			} catch (IndexOutOfBoundsException e) 
 			{
-					e.printStackTrace();
+//					e.printStackTrace();
+			}
+			
+			if(retVal.size()>=3) {
+				break;
 			}
 		}
 		
@@ -80,11 +85,7 @@ public class BuildTree {
 		ArrayList<String> firstFloor = this.getSubUrl(this.url);
 		
 		for(String firstSubUrl : firstFloor){
-			ArrayList<String> secondFloor = this.getSubUrl(firstSubUrl);
 			WebNode f = new WebNode(new WebPage(firstSubUrl, "NoName"));
-			for(String secondSubUrl : secondFloor) {
-				f.addChild(new WebNode(new WebPage(secondSubUrl, "NoName")));
-			}
 			tree.root.addChild(f);
 		}
 		

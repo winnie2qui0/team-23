@@ -4,7 +4,8 @@ import java.util.HashMap;
 public class Main {
 	
 	public static void main(String args[]) throws IOException {
-		Search go = new Search("臺灣");
+		long startTime=System.nanoTime();
+		Search go = new Search("政大");
 		HashMap<String, String> urls = go.query();
 		Ranking rank = new Ranking();
 		for(String title : urls.keySet()) {
@@ -26,5 +27,7 @@ public class Main {
 //		tree.setPostOrderScore();
 //		rank.add(tree.root);
 		rank.output();
+		long endTime=System.nanoTime();
+		System.out.println("執行時間： "+(endTime-startTime)+" NS ");
 	}
 }
