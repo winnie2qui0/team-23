@@ -34,34 +34,34 @@ public class WebTree {
         });
 		
 	}
-	
-	public void eularPrintTree(){
-		eularPrintTree(root);
-	}
-	
-	private void eularPrintTree(WebNode startNode){
-		int nodeDepth = startNode.getDepth();
-		
-		if(nodeDepth > 1) System.out.print("\n" + repeat("\t", nodeDepth-1));
-
-		System.out.print("(");
-		System.out.print(startNode.webPage.name + "," + startNode.nodeScore);
-		
-		//3. print child via pre-order
-		for(WebNode child : startNode.children) {
-			this.eularPrintTree(child);
-		}
-		
-		System.out.print(")");
-				
-		if(startNode.isTheLastChild()) System.out.print("\n" + repeat("\t", nodeDepth-2));	
-	}
-	
-	private String repeat(String str, int repeat){
-		String retVal = "";
-		for(int i = 0; i < repeat; i++){
-			retVal += str;
-		}
-		return retVal;
-	}
+//	
+//	public void eularPrintTree(){
+//		eularPrintTree(root);
+//	}
+//	
+//	private void eularPrintTree(WebNode startNode){
+//		int nodeDepth = startNode.getDepth();
+//		
+//		if(nodeDepth > 1) System.out.print("\n" + repeat("\t", nodeDepth-1));
+//
+//		System.out.print("(");
+//		System.out.print(startNode.webPage.name + "," + startNode.nodeScore);
+//		
+//		//3. print child via pre-order
+//		for(WebNode child : startNode.children) {
+//			this.eularPrintTree(child);
+//		}
+//		
+//		System.out.print(")");
+//				
+//		if(startNode.isTheLastChild()) System.out.print("\n" + repeat("\t", nodeDepth-2));	
+//	}
+//	
+//	private String repeat(String str, int repeat){
+//		String retVal = "";
+//		for(int i = 0; i < repeat; i++){
+//			retVal += str;
+//		}
+//		return retVal;
+//	}
 }
