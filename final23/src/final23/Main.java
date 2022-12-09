@@ -5,10 +5,12 @@ import java.util.List;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class Main {
@@ -16,7 +18,7 @@ public class Main {
 	public static void main(String args[]) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 
 		long startTime=System.nanoTime();
-		Search go = new Search("台大");
+		Search go = new Search("海");
 
 		HashMap<String, String> urls = go.query();
 //		System.out.println(urls);
@@ -58,7 +60,7 @@ public class Main {
 		}	
 		
 		ExecutorService executorService = Executors.newFixedThreadPool(urls.size());
-		List<Future<WebTree>> futures = executorService.invokeAll(tasksTree);
+		List<Future<WebTree>> futures = executorService.invokeAll(tasksTree, 8, TimeUnit.SECONDS);
         
         long endTime1=System.nanoTime();
 		System.out.println("BuildTree執行時間： "+(endTime1-startTime1)+" NS ");
@@ -66,20 +68,23 @@ public class Main {
 		List<Callable<WebTree>> tasksContent = new ArrayList<>();
 		
         for(int i = 0; i < futures.size(); i++) {
-        	
-        	WebTree tree = (WebTree) futures.get(i).get();
-    		long startTime2=System.nanoTime();
-    		tasksContent.add(()->{
-    			tree.setPostOrderScore();
-	    		rank.add(tree.root);
-                return tree;
-    		});
-    		
-    		long endTime2=System.nanoTime();
-    		System.out.println("Score執行時間： "+(endTime2-startTime2)+" NS ");
+	        try {
+	        	WebTree tree = (WebTree) futures.get(i).get();
+	    		long startTime2=System.nanoTime();
+	    		tasksContent.add(()->{
+	    			tree.setPostOrderScore();
+		    		rank.add(tree.root);
+	                return tree;
+	    		});
+	    		
+	    		long endTime2=System.nanoTime();
+	    		System.out.println("Score執行時間： "+(endTime2-startTime2)+" NS ");
+	        }catch(CancellationException e){
+	        	
+	        }
         }
         
-        List<Future<WebTree>> futuresContent = executorService.invokeAll(tasksContent);
+        List<Future<WebTree>> futuresContent = executorService.invokeAll(tasksContent, 8, TimeUnit.SECONDS);
         
         executorService.shutdown();
 
