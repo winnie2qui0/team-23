@@ -17,6 +17,7 @@ public class WebNode {
 
 		// compute webPage score
 		webPage.setScore();
+		
 		// set webPage score to nodeScore
 		nodeScore = webPage.score;
 

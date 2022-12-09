@@ -58,6 +58,20 @@ public class BuildTree {
 		Elements lis = doc.select("div");
 //		lis = lis.select(".kCrYT");
 
+//		lis.parallelStream().forEach(li -> {
+//			if (retVal.size() < 3) {
+//				try {
+//					String citeUrl = li.select("a").get(0).attr("href");
+//
+//					if (citeUrl.substring(0, 4).equals("http")) {
+//						retVal.add(citeUrl);
+//					}
+//				} catch (IndexOutOfBoundsException e) {
+////						e.printStackTrace();
+//				}
+//			}
+//		});
+
 		for (Element li : lis) {
 			try {
 				String citeUrl = li.select("a").get(0).attr("href");
