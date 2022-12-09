@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 
 public class WebPage {
@@ -6,14 +5,14 @@ public class WebPage {
 	public String name;
 	public Evaluating eva;
 	public double score;
-	
-	public WebPage(String url, String name){
+
+	public WebPage(String url, String name) {
 		this.url = url;
 		this.name = name;
-		this.eva = new Evaluating(url);	
+		this.eva = new Evaluating(url);
 	}
-	
-	public void setScore() throws IOException{
+
+	public void setScore() throws IOException {
 		score = this.eva.setScore();
-	}	
+	}
 }
