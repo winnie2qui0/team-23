@@ -21,26 +21,16 @@ public class Main {
 		Search go = new Search("政大");
 
 		HashMap<String, String> urls = go.query();
-//		System.out.println(urls);
 		Ranking rank = new Ranking();
 		
 		List<Callable<WebTree>> tasksTree = new ArrayList<>();
 		
-		long startTime1=System.nanoTime();
-		
 		for(String title : urls.keySet()) {
-//			System.out.println(title);
 			String encodedURL = urls.get(title);
-//			System.out.println("  encoded url ");
-//			System.out.println(encodedURL);
-//			System.out.println("  decoded url ");
 			String decodedURL = "";
 			try {
 			      // 進行 URL 百分比解碼
 			      String url = URLDecoder.decode(encodedURL, "UTF-8");
-
-			      // 輸出結果
-//			      System.out.println(url);
 			      decodedURL = url;
 
 			    } catch (UnsupportedEncodingException e) {
@@ -55,37 +45,27 @@ public class Main {
     			WebTree tree = urlTree.buildIt();
                 return tree;
             });
-	        
-			
 		}	
 		
 		ExecutorService executorService = Executors.newFixedThreadPool(urls.size());
 		List<Future<WebTree>> futures = executorService.invokeAll(tasksTree, 8, TimeUnit.SECONDS);
-        
-        long endTime1=System.nanoTime();
-		System.out.println("BuildTree執行時間： "+(endTime1-startTime1)+" NS ");
 		
 		List<Callable<WebTree>> tasksContent = new ArrayList<>();
 		
         for(int i = 0; i < futures.size(); i++) {
 	        try {
 	        	WebTree tree = (WebTree) futures.get(i).get();
-	    		long startTime2=System.nanoTime();
 	    		tasksContent.add(()->{
 	    			tree.setPostOrderScore();
 		    		rank.add(tree.root);
 	                return tree;
 	    		});
-	    		
-	    		long endTime2=System.nanoTime();
-	    		System.out.println("Score執行時間： "+(endTime2-startTime2)+" NS ");
 	        }catch(CancellationException e){
 	        	
 	        }
         }
         
         List<Future<WebTree>> futuresContent = executorService.invokeAll(tasksContent, 8, TimeUnit.SECONDS);
-        
         executorService.shutdown();
 
 		rank.output();
