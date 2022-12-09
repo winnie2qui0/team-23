@@ -83,7 +83,7 @@ public class BuildTree {
 //					e.printStackTrace();
 			}
 			
-			if(retVal.size() == 2) {
+			if(retVal.size() == 3) {
 				break;
 
 			}
@@ -96,7 +96,8 @@ public class BuildTree {
 	}
 	
 	public WebTree buildIt() throws IOException{
-		WebPage rootPage = new WebPage(this.url, this.title);		
+		WebPage rootPage = new WebPage(this.url, this.title);
+		rootPage.passContent(this.content);
 		WebTree tree = new WebTree(rootPage);
 		
 		ArrayList<String> firstFloor = this.getSubUrl(this.url);

@@ -13,6 +13,10 @@ public class WebPage {
 		this.eva = new Evaluating(url);	
 	}
 	
+	public void passContent(String content) {
+		this.eva.content = content;
+	}
+	
 	public void setScore() throws IOException{
 		score = this.eva.setScore();
 	}	

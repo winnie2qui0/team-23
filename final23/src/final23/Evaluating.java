@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Evaluating {
 	private HashMap<String, Double> keywords = new HashMap<String, Double>();
 	private String urlStr;
-    private String content;
+    public String content;
 	
 	public Evaluating(String urlStr) {
 		this.keywords.put("笑死", 7.0);
