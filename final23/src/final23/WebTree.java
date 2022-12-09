@@ -19,7 +19,8 @@ public class WebTree {
 		setPostOrderScore(root);
 		ExecutorService executorService = Executors.newFixedThreadPool(3);
 		List<Future<WebTree>> futures = executorService.invokeAll(tasksScore, 8, TimeUnit.SECONDS);
-        executorService.shutdown();
+		executorService.shutdown();
+		
 	}
 	
 	private void setPostOrderScore(WebNode startNode) throws IOException{
