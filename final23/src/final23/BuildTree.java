@@ -24,27 +24,40 @@ public class BuildTree {
 	
 	private String fetchContent(String urlStr) throws IOException
 	{
+		long startTime=System.nanoTime();
 		String retVal = "";
     	try {
-			URL url = new URL(urlStr);
-			URLConnection conn = url.openConnection();
-			InputStream in = conn.getInputStream();
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		
-			String line = null;
+	
+    		URL u = new URL(url);
+    		URLConnection conn = u.openConnection();
+    		//set HTTP header
+    		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107 Chrome/40.0.2214.38 Safari/537.36");
+//    		conn.setRequestProperty("User-agent","Mozilla/5.0 (Linux; Android 4.2.1; Nexus 7 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166  Safari/535.19");
+//    		conn.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0").ignoreHttpErrors(true).followRedirects(true).timeout(100000).ignoreContentType(true).get();
+    		InputStream in = conn.getInputStream();
+
+    		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
+    		BufferedReader bufReader = new BufferedReader(inReader);
+    		String line = null;
+
+    		while((line = bufReader.readLine()) != null){
+    			retVal += line;
+    		}
 			
-			while ((line = br.readLine()) != null){
-			    retVal = retVal + line + "\n";
-			}
     	}catch(IOException e){
     		
     	}
+    	long endTime=System.nanoTime();
+		System.out.println("BuildTreeFetch執行時間： "+(endTime-startTime)+" NS ");
+    	
 		return retVal;
 	}
 	
 	private ArrayList<String> getSubUrl(String url) throws IOException{
 
 		content = fetchContent(url);
+		
+		long startTime=System.nanoTime();
 		
 		ArrayList<String> retVal = new ArrayList<String>();
 		
@@ -71,17 +84,21 @@ public class BuildTree {
 //					e.printStackTrace();
 			}
 			
-			if(retVal.size()>=3) {
+			if(retVal.size() == 3) {
 				break;
 
 			}
 		}
 		
+		long endTime=System.nanoTime();
+		System.out.println("getSubUrl執行時間： "+(endTime-startTime)+" NS ");
+		
 		return retVal;
 	}
 	
 	public WebTree buildIt() throws IOException{
-		WebPage rootPage = new WebPage(this.url, this.title);		
+		WebPage rootPage = new WebPage(this.url, this.title);
+		rootPage.passContent(this.content);
 		WebTree tree = new WebTree(rootPage);
 		
 		ArrayList<String> firstFloor = this.getSubUrl(this.url);

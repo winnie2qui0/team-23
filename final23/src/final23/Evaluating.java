@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class Evaluating {
 	private HashMap<String, Double> keywords = new HashMap<String, Double>();
 	private String urlStr;
-    private String content;
+    public String content;
 	
 	public Evaluating(String urlStr) {
 		this.keywords.put("笑死", 7.0);
@@ -34,23 +34,36 @@ public class Evaluating {
 	}
     
     private String fetchContent() throws IOException{
-		URL url = new URL(this.urlStr);
-		URLConnection conn = url.openConnection();
-		InputStream in = conn.getInputStream();
-		BufferedReader br = new BufferedReader(new InputStreamReader(in));
+    	String retVal = "";
+    	long startTime2=System.nanoTime();
+    	try {
 	
-		String retVal = "";
-	
-		String line = null;
+    		URL u = new URL(urlStr);
+    		URLConnection conn = u.openConnection();
+    		//set HTTP header
+    		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107 Chrome/40.0.2214.38 Safari/537.36");
+//    		conn.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0").ignoreHttpErrors(true).followRedirects(true).timeout(100000).ignoreContentType(true).get();
+    		InputStream in = conn.getInputStream();
+
+    		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
+    		BufferedReader bufReader = new BufferedReader(inReader);
+    		String line = null;
+
+    		while((line = bufReader.readLine()) != null){
+    			retVal += line;
+    		}
+			
+    	}catch(IOException e){
+
+    	}
+    	long endTime2=System.nanoTime();
+		System.out.println("EvaluatingFetch執行時間： "+(endTime2-startTime2)+" NS ");
 		
-		while ((line = br.readLine()) != null){
-		    retVal = retVal + line + "\n";
-		}
-	
 		return retVal;
     }
     
     public int countKeyword(String keyword) throws IOException{
+    	
 		if (content == null){
 		    content = fetchContent();
 		}
@@ -67,15 +80,18 @@ public class Evaluating {
 		    retVal++;
 		    fromIdx = found + keyword.length();
 		}
+		
 		return retVal;
     }
     
     public int setScore() throws IOException{
+    	
     	int totalScore = 0;
     	for(String keyword : this.keywords.keySet()){
     		double keyScore = this.countKeyword(keyword) * keywords.get(keyword);
     		totalScore += keyScore;
     	}
+		
     	return totalScore;
     }
 }

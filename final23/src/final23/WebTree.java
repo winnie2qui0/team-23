@@ -1,15 +1,26 @@
-
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class WebTree {
 	public WebNode root;
+	public List<Callable<WebTree>> tasksScore = new ArrayList<>();
 	
 	public WebTree(WebPage rootPage){
 		this.root = new WebNode(rootPage);
 	}
 	
-	public void setPostOrderScore() throws IOException{
+	public void setPostOrderScore() throws IOException, InterruptedException{
 		setPostOrderScore(root);
+		ExecutorService executorService = Executors.newFixedThreadPool(3);
+		List<Future<WebTree>> futures = executorService.invokeAll(tasksScore, 8, TimeUnit.SECONDS);
+		executorService.shutdown();
+		
 	}
 	
 	private void setPostOrderScore(WebNode startNode) throws IOException{
@@ -17,7 +28,11 @@ public class WebTree {
 		for(WebNode child : startNode.children) {
 			this.setPostOrderScore(child);
 		}
-		startNode.setNodeScore();
+		tasksScore.add(()->{
+			startNode.setNodeScore();
+			return null;
+        });
+		
 	}
 	
 	public void eularPrintTree(){
