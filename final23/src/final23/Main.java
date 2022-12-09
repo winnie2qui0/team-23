@@ -18,7 +18,7 @@ public class Main {
 	public static void main(String args[]) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 
 		long startTime=System.nanoTime();
-		Search go = new Search("台大");
+		Search go = new Search("政大");
 
 		HashMap<String, String> urls = go.query();
 //		System.out.println(urls);
