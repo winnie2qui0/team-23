@@ -33,7 +33,7 @@ public class Search {
 		URLConnection conn = u.openConnection();
 		//set HTTP header
 		conn.setRequestProperty("User-agent", "Chrome/107.0.5304.107 Chrome/40.0.2214.38 Safari/537.36");
-//		conn.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:49.0) Gecko/20100101 Firefox/49.0").ignoreHttpErrors(true).followRedirects(true).timeout(100000).ignoreContentType(true).get();
+//		conn.setRequestProperty("Content-Type", "application/json; utf-8");
 		InputStream in = conn.getInputStream();
 
 		InputStreamReader inReader = new InputStreamReader(in, "utf-8");
@@ -78,9 +78,9 @@ public class Search {
 			{
 				String citeUrl = li.select("a").get(0).attr("href");
 				int useLessUrl = citeUrl.indexOf("&sa=");
-				System.out.println(useLessUrl);
+//				System.out.println(useLessUrl);
 				citeUrl = citeUrl.substring(7, useLessUrl);
-				System.out.println(citeUrl);
+//				System.out.println(citeUrl);
 				String title = li.select("a").get(0).select(".vvjwJb").text();
 //				System.out.println(title);
 				

@@ -35,6 +35,7 @@ public class Evaluating {
     
     private String fetchContent() throws IOException{
     	String retVal = "";
+    	long startTime2=System.nanoTime();
     	try {
 	
     		URL u = new URL(urlStr);
@@ -53,12 +54,16 @@ public class Evaluating {
     		}
 			
     	}catch(IOException e){
-    		
+
     	}
+    	long endTime2=System.nanoTime();
+		System.out.println("EvaluatingFetch執行時間： "+(endTime2-startTime2)+" NS ");
+		
 		return retVal;
     }
     
     public int countKeyword(String keyword) throws IOException{
+    	
 		if (content == null){
 		    content = fetchContent();
 		}
@@ -75,15 +80,18 @@ public class Evaluating {
 		    retVal++;
 		    fromIdx = found + keyword.length();
 		}
+		
 		return retVal;
     }
     
     public int setScore() throws IOException{
+    	
     	int totalScore = 0;
     	for(String keyword : this.keywords.keySet()){
     		double keyScore = this.countKeyword(keyword) * keywords.get(keyword);
     		totalScore += keyScore;
     	}
+		
     	return totalScore;
     }
 }

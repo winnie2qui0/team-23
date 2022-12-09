@@ -24,6 +24,7 @@ public class BuildTree {
 	
 	private String fetchContent(String urlStr) throws IOException
 	{
+		long startTime=System.nanoTime();
 		String retVal = "";
     	try {
 	
@@ -45,12 +46,17 @@ public class BuildTree {
     	}catch(IOException e){
     		
     	}
+    	long endTime=System.nanoTime();
+		System.out.println("BuildTreeFetch執行時間： "+(endTime-startTime)+" NS ");
+    	
 		return retVal;
 	}
 	
 	private ArrayList<String> getSubUrl(String url) throws IOException{
 
 		content = fetchContent(url);
+		
+		long startTime=System.nanoTime();
 		
 		ArrayList<String> retVal = new ArrayList<String>();
 		
@@ -77,11 +83,14 @@ public class BuildTree {
 //					e.printStackTrace();
 			}
 			
-			if(retVal.size()>=3) {
+			if(retVal.size() == 2) {
 				break;
 
 			}
 		}
+		
+		long endTime=System.nanoTime();
+		System.out.println("getSubUrl執行時間： "+(endTime-startTime)+" NS ");
 		
 		return retVal;
 	}
