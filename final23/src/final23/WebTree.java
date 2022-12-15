@@ -17,51 +17,54 @@ public class WebTree {
 	
 	public void setPostOrderScore() throws IOException, InterruptedException{
 		setPostOrderScore(root);
-		ExecutorService executorService = Executors.newFixedThreadPool(3);
-		List<Future<WebTree>> futures = executorService.invokeAll(tasksScore, 8, TimeUnit.SECONDS);
-		executorService.shutdown();
-		
 	}
 	
-	private void setPostOrderScore(WebNode startNode) throws IOException{
+	private void setPostOrderScore(WebNode startNode) throws IOException, InterruptedException{
 		//2. compute the score of children nodes via post-order, then setNodeScore for startNode
 		for(WebNode child : startNode.children) {
 			this.setPostOrderScore(child);
 		}
-		tasksScore.add(()->{
+		if(startNode.children != null) {
+			ExecutorService executorService = Executors.newFixedThreadPool(5);
+			List<Future<WebTree>> futures = executorService.invokeAll(tasksScore);
+			executorService.shutdown();
 			startNode.setNodeScore();
-			return null;
-        });
+		}else {
+			tasksScore.add(()->{
+				startNode.setNodeScore();
+				return null;
+	        });
+		}
 		
 	}
-//	
-//	public void eularPrintTree(){
-//		eularPrintTree(root);
-//	}
-//	
-//	private void eularPrintTree(WebNode startNode){
-//		int nodeDepth = startNode.getDepth();
-//		
-//		if(nodeDepth > 1) System.out.print("\n" + repeat("\t", nodeDepth-1));
-//
-//		System.out.print("(");
-//		System.out.print(startNode.webPage.name + "," + startNode.nodeScore);
-//		
-//		//3. print child via pre-order
-//		for(WebNode child : startNode.children) {
-//			this.eularPrintTree(child);
-//		}
-//		
-//		System.out.print(")");
-//				
-//		if(startNode.isTheLastChild()) System.out.print("\n" + repeat("\t", nodeDepth-2));	
-//	}
-//	
-//	private String repeat(String str, int repeat){
-//		String retVal = "";
-//		for(int i = 0; i < repeat; i++){
-//			retVal += str;
-//		}
-//		return retVal;
-//	}
+	
+	public void eularPrintTree(){
+		eularPrintTree(root);
+	}
+	
+	private void eularPrintTree(WebNode startNode){
+		int nodeDepth = startNode.getDepth();
+		
+		if(nodeDepth > 1) System.out.print("\n" + repeat("\t", nodeDepth-1));
+
+		System.out.print("(");
+		System.out.print(startNode.webPage.name + "," + startNode.nodeScore);
+		
+		//3. print child via pre-order
+		for(WebNode child : startNode.children) {
+			this.eularPrintTree(child);
+		}
+		
+		System.out.print(")");
+				
+		if(startNode.isTheLastChild()) System.out.print("\n" + repeat("\t", nodeDepth-2));	
+	}
+	
+	private String repeat(String str, int repeat){
+		String retVal = "";
+		for(int i = 0; i < repeat; i++){
+			retVal += str;
+		}
+		return retVal;
+	}
 }

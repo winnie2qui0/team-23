@@ -60,6 +60,7 @@ public class Search {
 			try {
 				String citeUrl = li.select("a").get(0).attr("href");
 				int useLessUrl = citeUrl.indexOf("&sa=");
+//				System.out.println(citeUrl);
 //				System.out.println(useLessUrl);
 				citeUrl = citeUrl.substring(7, useLessUrl);
 //				System.out.println(citeUrl);
