@@ -34,7 +34,7 @@ public class Evaluating {
 		this.keywords.put("沒有梗", -10.0);
 		
 		this.posUrls.put("dcard.tw", 500.0);
-		this.posUrls.put("ptt.cc", 300.0);
+		this.posUrls.put("ptt.cc", 100.0);
 //		this.posUrls.put("", null);
 		
 		this.urlStr = urlStr;
@@ -94,14 +94,6 @@ public class Evaluating {
     			totalScore += posUrls.get(sUrls);
     		}
     	}
-    	File file = new File("BlackList.txt");
-		Scanner scanner = new Scanner(file);
-		while(scanner.hasNextLine()){
-			String  negUrl = scanner.next();
-			if(urlStr.indexOf(negUrl) != -1) {
-    			totalScore -= 1000;
-    		}
-		}
     	for(String keyword : this.keywords.keySet()){
     		double keyScore = this.countKeyword(keyword) * keywords.get(keyword);
     		totalScore += keyScore;

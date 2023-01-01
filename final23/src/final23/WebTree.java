@@ -18,8 +18,9 @@ public class WebTree {
 	public void setPostOrderScore() throws IOException, InterruptedException{
 		setPostOrderScore(root);
 		ExecutorService executorService = Executors.newFixedThreadPool(3);
-		List<Future<WebTree>> futures = executorService.invokeAll(tasksScore, 8, TimeUnit.SECONDS);
+		List<Future<WebTree>> futures = executorService.invokeAll(tasksScore, 15, TimeUnit.SECONDS);
         executorService.shutdown();
+        root.setNodeScore();
 	}
 	
 	private void setPostOrderScore(WebNode startNode) throws IOException{
@@ -27,11 +28,12 @@ public class WebTree {
 		for(WebNode child : startNode.children) {
 			this.setPostOrderScore(child);
 		}
-		tasksScore.add(()->{
-			startNode.setNodeScore();
-			return null;
-        });
-		
+		if(startNode.children.isEmpty()) {
+			tasksScore.add(()->{
+				startNode.setNodeScore();
+				return null;
+	        });
+		}
 	}
 	
 	public void eularPrintTree(){

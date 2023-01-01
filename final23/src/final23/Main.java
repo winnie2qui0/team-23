@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -14,22 +15,58 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 
-
-
 public class Main {
 	
 	public static void main(String args[]) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 //		SpringApplication.run(Main.class, args);
-
+		Scanner sc = new Scanner(System.in);
+		UserInput input = new UserInput(sc.next());
+		sc.close();
+		
 		long startTime=System.nanoTime();
-		Search go = new Search("頭痛");
+		Search main1 = new Search(input.input + "+笑話");
+		Search main2 = new Search(input.input + "+joke");
+		
+		HashMap<String, String> urls = new HashMap<String, String>();
+		List<Callable<HashMap<String, String>>> tasksUrls = new ArrayList<>();
+		ArrayList<String> relList = main1.semanticsAnalysis();
+		ArrayList<String> relList2 = main2.semanticsAnalysis();
+		relList.addAll(relList2);
+		
+		int limitation = 15;
+		if(!(relList.isEmpty())) {
+			SemanticsAnalysis sa = new SemanticsAnalysis();
+			String mostRel = sa.find(input.input, relList);
+			System.out.println(mostRel);
+			Search sub = new Search(mostRel);
+			tasksUrls.add(()->{
+				HashMap<String, String> urls3 = sub.query(10);
+				urls3.forEach((k, v) -> urls.putIfAbsent(k, v));
+				return urls3;
+	        });
+		}
+		tasksUrls.add(()->{
+			HashMap<String, String> urls1 = main1.query(limitation);
+			urls1.forEach((k, v) -> urls.putIfAbsent(k, v));
+			return urls1;
+        });
+		tasksUrls.add(()->{
+			HashMap<String, String> urls2 = main2.query(limitation);
+			urls2.forEach((k, v) -> urls.putIfAbsent(k, v));
+			return urls2;
+        });
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(100);
+		List<Future<HashMap<String, String>>> futures = executorService.invokeAll(tasksUrls, 10, TimeUnit.SECONDS);
 
-		HashMap<String, String> urls = go.query();
-		Ranking rank = new Ranking();
-		Ranking failureRank = new Ranking();
-		
+//		for(String title : urls.keySet()) {
+//			System.out.print(title + ":");
+//			System.out.println(urls.get(title));
+//		}
+//		System.out.println(urls);
+
 		List<Callable<WebTree>> tasksTree = new ArrayList<>();
-		
+//		
 		for(String title : urls.keySet()) {
 			String encodedURL = urls.get(title);
 			String decodedURL = "";
@@ -44,30 +81,33 @@ public class Main {
 			    }
 			
 			String dURL = decodedURL;
+//			System.out.println(dURL);
 			
 			tasksTree.add(()->{
             	BuildTree urlTree = new BuildTree(dURL, title);
     			WebTree tree = urlTree.buildIt();
-    			tree.eularPrintTree();
+    			System.out.println(tree.root.webPage.name);
                 return tree;
             });
 		}	
-		
-		ExecutorService executorService = Executors.newFixedThreadPool(urls.size());
-		List<Future<WebTree>> futures = executorService.invokeAll(tasksTree, 8, TimeUnit.SECONDS);
+
+		List<Future<WebTree>> futuresTree = executorService.invokeAll(tasksTree, 10, TimeUnit.SECONDS);
 		
 		List<Callable<WebTree>> tasksContent = new ArrayList<>();
+		Ranking rank = new Ranking();
+		Ranking failureRank = new Ranking();
 		
-        for(int i = 0; i < futures.size(); i++) {
+        for(int i = 0; i < futuresTree.size(); i++) {
 	        try {
-	        	WebTree tree = (WebTree) futures.get(i).get();
+	        	WebTree tree = (WebTree) futuresTree.get(i).get();
 	    		tasksContent.add(()->{
 	    			tree.setPostOrderScore();
-	    			if(tree.root.nodeScore >= 0) {
+	    			if(tree.root.nodeScore > 10) {
 	    				rank.add(tree.root);
 	    			}else{
 	    				failureRank.add(tree.root);
 	    			}
+	    			tree.eularPrintTree();
 	                return tree;
 	    		});
 	        }catch(CancellationException e){
@@ -75,14 +115,15 @@ public class Main {
 	        }
         }
         
-        List<Future<WebTree>> futuresContent = executorService.invokeAll(tasksContent, 8, TimeUnit.SECONDS);
-        executorService.shutdown();
+        List<Future<WebTree>> futuresContent = executorService.invokeAll(tasksContent);
 
 		rank.output();
+		System.out.println("Fails:");
 		failureRank.output();
 		long endTime=System.nanoTime();
 		System.out.println("總執行時間： "+(endTime-startTime)+" NS ");
-
+		
+		System.exit(0);
 	}
 //	public static void main(String args[]) throws IOException {
 //		long startTime = System.nanoTime();

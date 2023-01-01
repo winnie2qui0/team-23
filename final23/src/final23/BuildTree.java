@@ -60,13 +60,13 @@ public class BuildTree {
 			try {
 				String citeUrl = li.select("a").get(0).attr("href");
 
-				if(citeUrl.substring(0, 4).equals("http") && !(retVal.contains(citeUrl))) {
+				if(citeUrl.substring(0, 4).equals("http") && !(retVal.contains(citeUrl)) && citeUrl.indexOf("imgur") == -1) {
 					retVal.add(citeUrl);
 				}	
 			} catch (IndexOutOfBoundsException e) {
 //					e.printStackTrace();
 			}
-			if(retVal.size() == 3) {
+			if(retVal.size() == 2) {
 				break;
 			}
 		}
