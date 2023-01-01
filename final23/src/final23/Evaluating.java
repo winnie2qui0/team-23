@@ -1,13 +1,16 @@
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class Evaluating {
 	private HashMap<String, Double> keywords = new HashMap<String, Double>();
+	private HashMap<String, Double> posUrls = new HashMap<String, Double>();
 	private String urlStr;
     public String content;
 	
@@ -29,6 +32,10 @@ public class Evaluating {
 		this.keywords.put("下去", -5.0);
 		this.keywords.put("沒梗", -5.0);
 		this.keywords.put("沒有梗", -10.0);
+		
+		this.posUrls.put("dcard.tw", 500.0);
+		this.posUrls.put("ptt.cc", 300.0);
+//		this.posUrls.put("", null);
 		
 		this.urlStr = urlStr;
 	}
@@ -81,6 +88,20 @@ public class Evaluating {
     
     public int setScore() throws IOException{
     	int totalScore = 0;
+    	for(String sUrls : this.posUrls.keySet()) {
+//    		System.out.println(sUrls);
+    		if(urlStr.indexOf(sUrls) != -1) {
+    			totalScore += posUrls.get(sUrls);
+    		}
+    	}
+    	File file = new File("BlackList.txt");
+		Scanner scanner = new Scanner(file);
+		while(scanner.hasNextLine()){
+			String  negUrl = scanner.next();
+			if(urlStr.indexOf(negUrl) != -1) {
+    			totalScore -= 1000;
+    		}
+		}
     	for(String keyword : this.keywords.keySet()){
     		double keyScore = this.countKeyword(keyword) * keywords.get(keyword);
     		totalScore += keyScore;

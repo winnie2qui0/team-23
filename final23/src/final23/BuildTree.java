@@ -60,7 +60,7 @@ public class BuildTree {
 			try {
 				String citeUrl = li.select("a").get(0).attr("href");
 
-				if(citeUrl.substring(0, 4).equals("http")) {
+				if(citeUrl.substring(0, 4).equals("http") && !(retVal.contains(citeUrl))) {
 					retVal.add(citeUrl);
 				}	
 			} catch (IndexOutOfBoundsException e) {
@@ -82,7 +82,7 @@ public class BuildTree {
 		ArrayList<String> firstFloor = this.getSubUrl(this.url);
 		
 		for(String firstSubUrl : firstFloor){
-			WebNode f = new WebNode(new WebPage(firstSubUrl, "NoName"));
+			WebNode f = new WebNode(new WebPage(firstSubUrl, firstSubUrl));
 			tree.root.addChild(f);
 		}
 		

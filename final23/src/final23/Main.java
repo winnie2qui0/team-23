@@ -22,10 +22,11 @@ public class Main {
 //		SpringApplication.run(Main.class, args);
 
 		long startTime=System.nanoTime();
-		Search go = new Search("郁方");
+		Search go = new Search("頭痛");
 
 		HashMap<String, String> urls = go.query();
 		Ranking rank = new Ranking();
+		Ranking failureRank = new Ranking();
 		
 		List<Callable<WebTree>> tasksTree = new ArrayList<>();
 		
@@ -62,7 +63,11 @@ public class Main {
 	        	WebTree tree = (WebTree) futures.get(i).get();
 	    		tasksContent.add(()->{
 	    			tree.setPostOrderScore();
-		    		rank.add(tree.root);
+	    			if(tree.root.nodeScore >= 0) {
+	    				rank.add(tree.root);
+	    			}else{
+	    				failureRank.add(tree.root);
+	    			}
 	                return tree;
 	    		});
 	        }catch(CancellationException e){
@@ -74,6 +79,7 @@ public class Main {
         executorService.shutdown();
 
 		rank.output();
+		failureRank.output();
 		long endTime=System.nanoTime();
 		System.out.println("總執行時間： "+(endTime-startTime)+" NS ");
 

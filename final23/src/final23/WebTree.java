@@ -5,6 +5,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 public class WebTree {
 	public WebNode root;
@@ -16,24 +17,20 @@ public class WebTree {
 	
 	public void setPostOrderScore() throws IOException, InterruptedException{
 		setPostOrderScore(root);
+		ExecutorService executorService = Executors.newFixedThreadPool(3);
+		List<Future<WebTree>> futures = executorService.invokeAll(tasksScore, 8, TimeUnit.SECONDS);
+        executorService.shutdown();
 	}
 	
-	private void setPostOrderScore(WebNode startNode) throws IOException, InterruptedException{
+	private void setPostOrderScore(WebNode startNode) throws IOException{
 		//2. compute the score of children nodes via post-order, then setNodeScore for startNode
 		for(WebNode child : startNode.children) {
 			this.setPostOrderScore(child);
 		}
-		if(startNode.children != null) {
-			ExecutorService executorService = Executors.newFixedThreadPool(5);
-			List<Future<WebTree>> futures = executorService.invokeAll(tasksScore);
-			executorService.shutdown();
+		tasksScore.add(()->{
 			startNode.setNodeScore();
-		}else {
-			tasksScore.add(()->{
-				startNode.setNodeScore();
-				return null;
-	        });
-		}
+			return null;
+        });
 		
 	}
 	
