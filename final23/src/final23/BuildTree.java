@@ -21,7 +21,7 @@ public class BuildTree {
 		this.title = title;
 	}
 	
-	private String fetchContent(String urlStr) throws IOException {
+	private String fetchContent() throws IOException {
 		String retVal = "";
     	try {
     		URL u = new URL(url);
@@ -45,8 +45,8 @@ public class BuildTree {
 		return retVal;
 	}
 	
-	private ArrayList<String> getSubUrl(String url) throws IOException{
-		content = fetchContent(url);
+	private ArrayList<String> getSubUrl() throws IOException{
+		content = fetchContent();
 		
 		ArrayList<String> retVal = new ArrayList<String>();
 		
@@ -54,7 +54,6 @@ public class BuildTree {
 
 		//select particular element(tag) which you want 
 		Elements lis = doc.select("div");
-//		lis = lis.select(".kCrYT");
 
 		for(Element li : lis){
 			try {
@@ -79,7 +78,7 @@ public class BuildTree {
 		rootPage.passContent(this.content);
 		WebTree tree = new WebTree(rootPage);
 		
-		ArrayList<String> firstFloor = this.getSubUrl(this.url);
+		ArrayList<String> firstFloor = this.getSubUrl();
 		
 		for(String firstSubUrl : firstFloor){
 			WebNode f = new WebNode(new WebPage(firstSubUrl, firstSubUrl));
