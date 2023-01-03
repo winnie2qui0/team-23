@@ -27,6 +27,12 @@
 			<scope>test</scope>
 		</dependency>
 		
+		<!-- thymeleaf -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		
   </dependencies>
   <build>
     <sourceDirectory>src/final23</sourceDirectory>
@@ -43,5 +49,23 @@
         </configuration>
       </plugin>
     </plugins>
+    
+     <resources>
+            <resource>
+                
+                <directory>src/resources</directory>
+                <includes>
+                    
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                    
+                    <include>**/*.html</include>
+                    
+                    <include>/static/</include>
+                </includes>
+ 
+            </resource>
+        </resources>
+    
   </build>
 </project>
