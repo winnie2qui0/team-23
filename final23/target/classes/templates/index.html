@@ -44,13 +44,19 @@
                 </div>
             </div>
         </div>
+
         <!-- Social Icons-->
         <!-- For more icon options, visit https://fontawesome.com/icons?d=gallery&p=2&s=brands-->
         <div class="social-icons">
             <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
+                 <h1>Here is result</h1>
+                    <h1 th:text="'result: ' + ${fakedata.result}" >${fakedata.result}</h1>
+                
+                <!--
                 <a class="btn btn-dark m-3" href="#!"><i class="fab fa-twitter"></i></a>
                 <a class="btn btn-dark m-3" href="#!"><i class="fab fa-facebook-f"></i></a>
                 <a class="btn btn-dark m-3" href="#!"><i class="fab fa-instagram"></i></a>
+                -->
             </div>
         </div>
         <!-- Bootstrap core JS-->
@@ -62,5 +68,6 @@
         <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+
     </body>
 </html>

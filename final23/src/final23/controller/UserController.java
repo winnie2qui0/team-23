@@ -28,16 +28,18 @@ public class UserController {
 	  }
 	 
 	 @GetMapping("/index")
-	    public String getIndex(@ModelAttribute UserForm userForm, Model model) {
+	    public String getIndex(@ModelAttribute UserForm userForm, Model model, FakeData fakedata) {
 		 
 		 model.addAttribute("userForm", new UserForm());
-		 //System.out.println(userForm.getContent());
+		 model.addAttribute("fakedata", new FakeData());
+		 System.out.println("this is get");
 	        return "index"; 
 	    }
 	 
 	 @PostMapping("/index")
-	  public String indexForm(@ModelAttribute UserForm userForm, Model model) {
+	  public String indexForm(@ModelAttribute UserForm userForm, Model model, FakeData fakedata) {
 	    model.addAttribute("userForm", userForm);
+	    model.addAttribute("fakedata", fakedata);
 	    System.out.println(userForm.getContent());
 	    return "index";
 	  }
