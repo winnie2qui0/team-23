@@ -13,17 +13,17 @@ public class Ranking {
 		this.result.offer(treeRoot);
 	}
 	
-	public void output(){
+	public String output(){
 		//3. print the output in order and remove all element
+		StringBuilder sb = new StringBuilder();
 		while(!(result.isEmpty())) {
-			StringBuilder sb = new StringBuilder();
 			WebNode out = result.remove();
 			sb.append(out.webPage.name);
 			sb.append(":");
-			sb.append(out.nodeScore);
-			System.out.println(sb.toString());
+			sb.append(out.webPage.url + "\n");
+			sb.append("\n");
 		}
-		
+		return sb.toString();
 			
 	}
 

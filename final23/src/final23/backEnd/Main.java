@@ -124,7 +124,7 @@ public class Main {
 		long endTime=System.nanoTime();
 		System.out.println("總執行時間： "+(endTime-startTime)+" NS ");
 		
-		System.exit(0);
+//		System.exit(0);
 	}
 //	public static void main(String args[]) throws IOException {
 //		long startTime = System.nanoTime();

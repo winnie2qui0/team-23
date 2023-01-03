@@ -18,7 +18,7 @@ import java.util.concurrent.TimeoutException;
 
 public class BackEndMain {
 	
-	public  void main(String string) throws IOException, InterruptedException, ExecutionException, TimeoutException {
+	public String main(String string) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 //		SpringApplication.run(Main.class, args);
 		
 		UserInput input = new UserInput(string);
@@ -117,14 +117,16 @@ public class BackEndMain {
         }
         
         List<Future<WebTree>> futuresContent = executorService.invokeAll(tasksContent);
-
-		rank.output();
+        
 		System.out.println("Fails:");
 		failureRank.output();
 		long endTime=System.nanoTime();
 		System.out.println("總執行時間： "+(endTime-startTime)+" NS ");
 		
-		System.exit(0);
+		String resultString = rank.output();;
+		System.out.println(resultString);
+		return resultString;
+//		System.exit(0);
 	}
 //	public static void main(String args[]) throws IOException {
 //		long startTime = System.nanoTime();

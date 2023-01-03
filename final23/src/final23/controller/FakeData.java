@@ -19,12 +19,10 @@ public class FakeData {
 	public String getResult(String string) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 		
 		BackEndMain main = new BackEndMain();
-		main.main(string);
-		
+		result = main.main(string);
 		
 		return result;
 		
 	}
-
 
 }
