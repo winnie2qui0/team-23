@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,11 +42,12 @@ public class UserController {
 	    }
 	 
 	 @PostMapping("/index")
-	  public String indexForm(@ModelAttribute UserForm userForm, Model model, FakeData fakedata) {
+	  public String indexForm(@ModelAttribute UserForm userForm, Model model, FakeData fakedata) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 	    model.addAttribute("userForm", userForm);
 	    model.addAttribute("fakedata", fakedata);
+	    fakedata.getResult(userForm.getContent());
 	    System.out.println(userForm.getContent());
-	    return "index";
+	    return "finalResult";
 	  }
 	 
 	 

@@ -1,3 +1,4 @@
+package backEnd;
 import java.util.Comparator;
 
 public class NodeComparator implements Comparator<WebNode> {
