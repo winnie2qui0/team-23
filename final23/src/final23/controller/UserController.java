@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 public class UserController {
 	
-	 @GetMapping("/hello")
+	 @GetMapping("/index")
 	    public String hello() {
-	        return "hello"; // 要導入的html
+	        return "index"; // 要導入的html
 	    } 
 
 }
