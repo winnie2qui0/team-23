@@ -21,7 +21,7 @@ function showResult() {
 
 		var y;
 		var i = document.createElement('div');
-		i.setAttribute("class", "col rounded list-group overflow-y-scroll ");
+		i.setAttribute("class", "col rounded overflow-auto list-group ");
 		i.setAttribute("id", "result");
 		var addressContainer = document.getElementById("search");
 		addressContainer.insertAdjacentElement("beforeend", i);
