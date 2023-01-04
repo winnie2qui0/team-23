@@ -33,6 +33,43 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-devtools</artifactId>
+	        <optional>true</optional>
+	        <scope>provided</scope><!--部署時將不會打包到jar/war裡面;因此工具建議用於Local開發使用。-->
+    	</dependency>
+		
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-webflux</artifactId>
+		    <version>2.6.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mustache</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>htmx.org</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>popperjs__core</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.googlecode.json-simple</groupId>
+		    <artifactId>json-simple</artifactId>
+		    <version>1.1.1</version>
+		</dependency>
+		
+		
   </dependencies>
   <build>
     <sourceDirectory>src/final23</sourceDirectory>

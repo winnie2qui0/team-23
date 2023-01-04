@@ -10,6 +10,15 @@
  * Copyright 2011-2021 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+.bg-result {
+  --bs-bg-opacity: 1;
+  background-color: #77B3D9;
+  border-color: #2a5555;
+}
+
+
+
 :root {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -6847,7 +6856,7 @@ textarea.form-control-lg {
 }
 
 .border {
-  border: 1px solid #dee2e6 !important;
+  border: 1px solid #2a5555 !important;
 }
 
 .border-0 {
@@ -11313,7 +11322,7 @@ video.bg-video {
   left: 50%;
   min-width: 100%;
   min-height: 100%;
-  width: auto;
+  width: 133%;
   height: auto;
   transform: translateX(-50%) translateY(-50%);
   z-index: 0;
@@ -11345,8 +11354,8 @@ video.bg-video {
   right: 0;
   left: 0;
   height: 100%;
-  width: 50%;
-  background-color: rgba(0, 0, 0, 10.85);
+  width: 0;
+  background-color: rgba(119, 179, 217, 0);
 }
 .masthead .masthead-content {
   position: relative;
@@ -11380,7 +11389,7 @@ video.bg-video {
 @media (min-width: 992px) {
   .masthead {
     height: 100%;
-    width: 75vw;
+    width: 100%;
     min-height: 0;
     padding-bottom: 0;
   }
@@ -11403,7 +11412,7 @@ video.bg-video {
 }
 @media (min-width: 1200px) {
   .masthead {
-    width: 65vw;
+    width: 100%;
   }
 }
 .social-icons {

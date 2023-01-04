@@ -4,24 +4,24 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import org.json.simple.JSONArray;
+
 import backEnd.*;
 
 public class FakeData {
 	
-	private String result = "This is result : 12312312312312312";
+	private JSONArray result = new JSONArray();
 	
 
 	
-	public String getResult() {
-		return result + "\n total time : 2s";
+	public JSONArray getResult() {
+		return result;
 	}
 	
-	public String getResult(String string) throws IOException, InterruptedException, ExecutionException, TimeoutException {
+	public void setResult(String string) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 		
 		BackEndMain main = new BackEndMain();
 		result = main.main(string);
-		
-		return result;
 		
 	}
 

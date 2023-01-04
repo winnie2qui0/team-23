@@ -15,10 +15,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.json.simple.JSONArray;
+
 
 public class BackEndMain {
 	
-	public String main(String string) throws IOException, InterruptedException, ExecutionException, TimeoutException {
+	public JSONArray main(String string) throws IOException, InterruptedException, ExecutionException, TimeoutException {
 //		SpringApplication.run(Main.class, args);
 		
 		UserInput input = new UserInput(string);
@@ -123,9 +125,9 @@ public class BackEndMain {
 		long endTime=System.nanoTime();
 		System.out.println("總執行時間： "+(endTime-startTime)+" NS ");
 		
-		String resultString = rank.output();;
-		System.out.println(resultString);
-		return resultString;
+		JSONArray resultJson = rank.output();;
+		System.out.println(resultJson);
+		return resultJson;
 //		System.exit(0);
 	}
 //	public static void main(String args[]) throws IOException {

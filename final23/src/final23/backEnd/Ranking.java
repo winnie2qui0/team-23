@@ -1,6 +1,8 @@
 package backEnd;
 
 import java.util.PriorityQueue;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class Ranking {
 	PriorityQueue<WebNode> result;
@@ -13,17 +15,27 @@ public class Ranking {
 		this.result.offer(treeRoot);
 	}
 	
-	public String output(){
+	public JSONArray output(){
 		//3. print the output in order and remove all element
 		StringBuilder sb = new StringBuilder();
+		JSONArray array = new JSONArray();
+		JSONObject object = new JSONObject();
 		while(!(result.isEmpty())) {
 			WebNode out = result.remove();
-			sb.append(out.webPage.name);
+			System.out.println("\n\nabc");
+			System.out.println(out.webPage.name);
+			System.out.println("\n\naaa");
+			object = new JSONObject();
+			object.put("webName", out.webPage.name);
+//			sb.append(out.webPage.name);
 			sb.append(":");
-			sb.append(out.webPage.url + "\n");
+//			sb.append(out.webPage.url + "\n");
+			object.put("webUrl", out.webPage.url);
 			sb.append("\n");
+			array.add(object);
+			
 		}
-		return sb.toString();
+		return array;
 			
 	}
 
