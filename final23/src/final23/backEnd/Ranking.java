@@ -26,7 +26,7 @@ public class Ranking {
 			System.out.println(out.webPage.name);
 			System.out.println("\n\naaa");
 			object = new JSONObject();
-			object.put("webName", out.webPage.name);
+			object.put("webName", out.webPage.name.replaceAll("&quot;", "\""));
 //			sb.append(out.webPage.name);
 			sb.append(":");
 //			sb.append(out.webPage.url + "\n");
