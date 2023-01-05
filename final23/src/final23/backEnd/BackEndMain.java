@@ -24,7 +24,8 @@ public class BackEndMain {
 //		SpringApplication.run(Main.class, args);
 		
 		UserInput input = new UserInput(string);
-	
+		
+		System.out.println(input.input);
 		
 		long startTime=System.nanoTime();
 		Search main1 = new Search(input.input + "+笑話");

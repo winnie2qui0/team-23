@@ -23,6 +23,9 @@ public class Ranking {
 		while(!(result.isEmpty())) {
 			WebNode out = result.remove();
 			System.out.println("\n\nabc");
+			if(out.webPage.name.indexOf("&quot讚美馬英九徵文比賽&quot") != -1) {
+				continue;
+			}
 			System.out.println(out.webPage.name);
 			System.out.println("\n\naaa");
 			object = new JSONObject();
