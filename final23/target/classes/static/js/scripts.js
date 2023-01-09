@@ -43,4 +43,11 @@ function showResult() {
 	
 }
 
-window.onload = showResult;
+console.log("test")
+function checkPopup() {
+   alert('關鍵字   權重\ndcard.tw: 500\nptt.cc: 100\n笑死: 7\n笑爛: 7\n迷因: 7\n地獄: 5\n好笑: 4\n有笑:3\nXD: 3\nMEME: 6\n還好: -1.5\n爛梗: -3\n下去: -5\n沒梗: -5\n沒有梗: -10  ');
+};
+
+
+
+window.onload = showResult();
