@@ -72,7 +72,7 @@
                                 <div class="invalid-feedback mt-2" >請輸入一些東西</div>
                                
                             </form>
-                            <button type="button" class="btn btn-info align-self-start mt-2"  style="color: #45C4B0 text-color: #2a5555 " id="check" onclick="checkPopup()">查看關鍵字及權重分配表</button>
+                            <button type="button" class="btn btn-info align-self-start mt-2"  style="color: #45C4B0 " id="check" onclick="checkPopup()">查看關鍵字及權重分配表</button>
 
                             
                             
@@ -109,7 +109,7 @@
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <script>
-            var number = [[${number}]];
+            var result;
             var message = "[[${message}]]";
             var rawResult = "[[${result}]]";
             var result = JSON.parse(rawResult.replace(/&quot;/g, '"'));

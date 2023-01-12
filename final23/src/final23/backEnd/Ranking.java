@@ -1,5 +1,6 @@
 package backEnd;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -29,12 +30,30 @@ public class Ranking {
 			System.out.println(out.webPage.name);
 			System.out.println("\n\naaa");
 			object = new JSONObject();
-			object.put("webName", out.webPage.name.replaceAll("&quot;", "\""));
+			ArrayList<String> list = new ArrayList<String>(); 
+			for(char ch : out.webPage.name.toCharArray()) {
+				list.add(Character.toString(ch));
+			}
+			for(int i = 0; i<list.size(); i++) {
+				if(i != 0 || i != list.size()) {
+					if(list.get(i).equals("\"")) {
+						list.remove(i);
+					}
+				}
+			}
+			StringBuilder webName = new StringBuilder();
+			webName.append("\"");
+			for (String s : list) {
+				webName.append(s);
+			}
+			webName.append("\"");
+//			object.put("webName", out.webPage.name.replaceAll("&quot;", "\""));
+			object.put("webName", webName);
 //			sb.append(out.webPage.name);
-			sb.append(":");
+//			sb.append(":");
 //			sb.append(out.webPage.url + "\n");
 			object.put("webUrl", out.webPage.url);
-			sb.append("\n");
+//			sb.append("\n");
 			array.add(object);
 			
 		}

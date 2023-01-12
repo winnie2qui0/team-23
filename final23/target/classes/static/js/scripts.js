@@ -17,7 +17,7 @@ function showAlert() {
 
 function showResult() {
 
-	if (result != "") {
+	if (result != undefined) {
 
 		var y;
 		var i = document.createElement('div');
@@ -50,4 +50,4 @@ function checkPopup() {
 
 
 
-window.onload = showResult();
+window.onload = showResult;
